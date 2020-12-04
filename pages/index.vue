@@ -99,9 +99,6 @@ export default {
   },
   methods: {
     async searchByName() {
-      if (this.searchName === "") {
-        return alert("Necesitas rellenar el campo para buscar");
-      }
       this.loading = true;
       const response = await fetch(
         `${api_url}/search?query=${this.searchName}&per_page=15`,
@@ -114,9 +111,13 @@ export default {
       this.loading = false;
     },
     searchByNameValidation() {
+      if (this.searchName === "") {
+        return alert("Necesitas rellenar el campo para buscar");
+      }
       if (this.searchFast !== "") {
         this.searchFast = "";
       }
+
       this.searchByName();
     },
     async page(validar) {
