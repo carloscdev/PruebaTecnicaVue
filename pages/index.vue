@@ -7,10 +7,12 @@
           v-model.trim="searchName"
           type="text"
           placeholder="Buscar video por nombre"
-          @keydown.enter.prevent="searchByName"
+          @keydown.enter.prevent="searchByNameValidation"
         />
         <br />
-        <button @click="searchByName" :disabled="validarBoton">Buscar</button>
+        <button @click="searchByNameValidation" :disabled="validarBoton">
+          {{ validarBusqueda }}
+        </button>
         <br />
         <hr />
         <div class="sugerencias">
@@ -51,6 +53,7 @@
 import Videos from "../components/Videos";
 const api_key = "563492ad6f91700001000001778d277b62924666b5926ae817c97666";
 const headers = { Authorization: api_key };
+const api_url = "https://api.pexels.com/videos";
 export default {
   components: {
     Videos
@@ -62,6 +65,7 @@ export default {
       searchName: "",
       numberPage: 1,
       searchFast: "",
+      loading: false,
       tagPopular: [{ id: "Tigers" }, { id: "Nature" }, { id: "People" }]
     };
   },
@@ -73,10 +77,13 @@ export default {
       return this.titleDefault == "Populares"
         ? `Página : ${this.numberPage}`
         : "";
+    },
+    validarBusqueda() {
+      return this.loading === true ? "Buscando ..." : "Buscar";
     }
   },
   async created() {
-    const response = await fetch(`https://api.pexels.com/videos/popular`, {
+    const response = await fetch(`${api_url}/popular`, {
       headers
     });
     const data = await response.json();
@@ -92,20 +99,30 @@ export default {
   },
   methods: {
     async searchByName() {
+      if (this.searchName === "") {
+        return alert("Necesitas rellenar el campo para buscar");
+      }
+      this.loading = true;
       const response = await fetch(
-        `https://api.pexels.com/videos/search?query=${this.searchName}&per_page=15`,
+        `${api_url}/search?query=${this.searchName}&per_page=15`,
         { headers }
       );
-      this.searchFast = "";
       const data = await response.json();
       this.videos = data.videos;
       this.titleDefault = this.searchName;
       this.searchName = "";
+      this.loading = false;
+    },
+    searchByNameValidation() {
+      if (this.searchFast !== "") {
+        this.searchFast = "";
+      }
+      this.searchByName();
     },
     async page(validar) {
       validar == true ? this.numberPage++ : this.numberPage--;
       const response = await fetch(
-        `https://api.pexels.com/videos/popular?page=${this.numberPage}`,
+        `${api_url}/popular?page=${this.numberPage}`,
         {
           headers
         }
