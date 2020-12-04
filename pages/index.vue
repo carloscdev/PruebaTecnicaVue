@@ -11,6 +11,20 @@
         />
         <br />
         <button @click="searchByName" :disabled="validarBoton">Buscar</button>
+        <br />
+        <hr />
+        <div class="sugerencias">
+          <div v-for="t in tagPopular" :key="t.id">
+            <input
+              type="radio"
+              :name="t.id"
+              :id="t.id"
+              :value="t.id"
+              v-model="searchFast"
+            />
+            <label :for="t.id">{{ t.id }}</label>
+          </div>
+        </div>
       </div>
     </div>
     <h2 class="ancho">{{ titleDefault }}</h2>
@@ -20,7 +34,11 @@
         <Videos :video="video" />
       </div>
     </div>
-    <div v-if="videos.length > 0" class="paginas ancho">
+    <strong class="numberPage ancho">{{ validarTitulo }}</strong>
+    <div
+      v-if="videos.length > 0 && titleDefault === 'Populares'"
+      class="paginas ancho"
+    >
       <button v-if="numberPage > 1" @click.prevent="page(false)">
         Prev Page
       </button>
@@ -42,7 +60,9 @@ export default {
       videos: [],
       titleDefault: "Populares",
       searchName: "",
-      numberPage: 1
+      numberPage: 1,
+      searchFast: "",
+      tagPopular: [{ id: "Tigers" }, { id: "Nature" }, { id: "People" }]
     };
   },
   computed: {
@@ -61,8 +81,14 @@ export default {
     });
     const data = await response.json();
     this.videos = data.videos;
-    console.log(this.videos);
-    console.log(data);
+  },
+  watch: {
+    searchFast() {
+      if (this.searchFast !== "") {
+        this.searchName = this.searchFast;
+        this.searchByName();
+      }
+    }
   },
   methods: {
     async searchByName() {
@@ -70,11 +96,11 @@ export default {
         `https://api.pexels.com/videos/search?query=${this.searchName}&per_page=15`,
         { headers }
       );
+      this.searchFast = "";
       const data = await response.json();
       this.videos = data.videos;
       this.titleDefault = this.searchName;
       this.searchName = "";
-      console.log(this.videos);
     },
     async page(validar) {
       validar == true ? this.numberPage++ : this.numberPage--;
@@ -86,7 +112,6 @@ export default {
       );
       const data = await response.json();
       this.videos = data.videos;
-      console.log(this.videos);
     }
   }
 };

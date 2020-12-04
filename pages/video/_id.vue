@@ -1,7 +1,7 @@
 <template>
   <div class="detailVideo ancho">
     <h2>Video: {{ video.id }}</h2>
-    <div class="detailVideo">
+    <div class="containerVideo">
       <iframe
         :src="nVideo"
         frameborder="0"
@@ -13,10 +13,12 @@
       Duración : {{ video.duration }} Seg. <br />
       Creador : {{ creador }} <br />
     </p>
+    <nuxt-link to="/" class="button">
+      Volver a inicio
+    </nuxt-link>
   </div>
 </template>
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -37,8 +39,6 @@ export default {
     this.video = video;
     this.nVideo = video.video_files[0].link;
     this.creador = video.user.name;
-    console.log(this.nVideo);
-    console.log(this.video);
   }
 };
 </script>

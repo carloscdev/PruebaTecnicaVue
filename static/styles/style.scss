@@ -3,6 +3,7 @@ html {
 }
 :root {
   --color-primario: #05a081;
+  --color-blanco: white;
 }
 .contenedor {
   &__hero {
@@ -16,7 +17,7 @@ html {
       padding: 5rem;
       border-radius: 2rem;
       h1 {
-        color: white;
+        color: var(--color-blanco);
         font-size: 4rem;
       }
       input {
@@ -25,6 +26,11 @@ html {
         padding: 1rem;
         border-radius: 0.5rem;
         border: none;
+      }
+      @media (max-width: 768px) {
+        
+          width: 80%;
+    
       }
     }
   }
@@ -66,14 +72,14 @@ h2 {
     background-color: var(--color-primario);
   }
 }
-button {
+button, .button {
   padding: 1rem 4rem;
   display: block;  
   cursor: pointer;
   background-color: var(--color-primario);
   border: none;
   border-radius: 0.5rem;
-  color: white;
+  color: var(--color-blanco);
   font-weight: bold;
   font-size: 1.5rem;
   text-align: center;
@@ -103,6 +109,9 @@ h3 {
     font-size: 2rem;
   }
 }
+a{
+  text-decoration: none;
+}
 .fotoPortada__detalle {
   position: absolute;
   top: 0;
@@ -111,11 +120,38 @@ h3 {
   right: 0;
   background-color: rgba($color: #000000, $alpha: 0.6);
 }
+.containerVideo {
+  text-align: center;
+}
 iframe{
-  width: 100%;
-  height: 50vw;
+  width: 80%;
+  height: 35vw;
 }
 p{
   margin: 3rem 0;
   font-size: 2rem;
+}
+.sugerencias {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  color: var(--color-blanco);
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+  input{
+    width: 20%;
+  }
+  label {
+    font-size: 2rem;
+  }
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+.numberPage {
+  display: block;
+  font-size: 2rem;
+  text-align: right;
 }
