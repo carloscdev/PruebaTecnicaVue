@@ -14,17 +14,24 @@
       </div>
     </div>
     <h2 class="ancho">{{ titleDefault }}</h2>
-    <div class="contenedor__general ancho">
+    <h3 v-if="videos.length == 0">Sin Resultados ...</h3>
+    <div v-else class="contenedor__general ancho">
       <div class="card" v-for="(video, index) in this.videos" :key="index">
         <Videos :video="video" />
       </div>
+    </div>
+    <div v-if="videos.length > 0" class="paginas ancho">
+      <button v-if="numberPage > 1" @click.prevent="page(false)">
+        Prev Page
+      </button>
+      <button @click.prevent="page(true)">Next Page</button>
     </div>
   </div>
 </template>
 
 <script>
 import Videos from "../components/Videos";
-const api_key = "563492ad6f91700001000001f702de05ef9942cd92919c9fa6f4561b";
+const api_key = "563492ad6f91700001000001778d277b62924666b5926ae817c97666";
 const headers = { Authorization: api_key };
 export default {
   components: {
@@ -34,12 +41,18 @@ export default {
     return {
       videos: [],
       titleDefault: "Populares",
-      searchName: ""
+      searchName: "",
+      numberPage: 1
     };
   },
   computed: {
     validarBoton() {
       return this.searchName == "";
+    },
+    validarTitulo() {
+      return this.titleDefault == "Populares"
+        ? `Página : ${this.numberPage}`
+        : "";
     }
   },
   async created() {
@@ -49,6 +62,7 @@ export default {
     const data = await response.json();
     this.videos = data.videos;
     console.log(this.videos);
+    console.log(data);
   },
   methods: {
     async searchByName() {
@@ -61,11 +75,19 @@ export default {
       this.titleDefault = this.searchName;
       this.searchName = "";
       console.log(this.videos);
+    },
+    async page(validar) {
+      validar == true ? this.numberPage++ : this.numberPage--;
+      const response = await fetch(
+        `https://api.pexels.com/videos/popular?page=${this.numberPage}`,
+        {
+          headers
+        }
+      );
+      const data = await response.json();
+      this.videos = data.videos;
+      console.log(this.videos);
     }
   }
 };
 </script>
-
-<style lang="scss">
-@import "../static/styles/style.scss";
-</style>

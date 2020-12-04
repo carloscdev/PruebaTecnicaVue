@@ -1,10 +1,10 @@
 <template>
   <div class="videos">
-    <div class="fotoPortada">
-      <nuxt-link :to="'/video/' + video.id">
+    <nuxt-link :to="'/video/' + video.id">
+      <div class="fotoPortada">
         <img :src="video.image" alt="Imagen" />
-      </nuxt-link>
-    </div>
+      </div>
+    </nuxt-link>
   </div>
 </template>
 

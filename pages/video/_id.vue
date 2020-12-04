@@ -1,6 +1,18 @@
 <template>
-  <div class="detailPersonaje">
-    {{ video.id }}
+  <div class="detailVideo ancho">
+    <h2>Video: {{ video.id }}</h2>
+    <div class="detailVideo">
+      <iframe
+        :src="nVideo"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <p>
+      Duración : {{ video.duration }} Seg. <br />
+      Creador : {{ creador }} <br />
+    </p>
   </div>
 </template>
 <script>
@@ -8,9 +20,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      api_key: "563492ad6f91700001000001f702de05ef9942cd92919c9fa6f4561b",
+      api_key: "563492ad6f91700001000001778d277b62924666b5926ae817c97666",
       idVideo: this.$route.params.id,
-      video: {}
+      video: {},
+      nVideo: "",
+      creador: ""
     };
   },
   async created() {
@@ -21,7 +35,10 @@ export default {
     );
     const video = await response.json();
     this.video = video;
-    console.log(video);
+    this.nVideo = video.video_files[0].link;
+    this.creador = video.user.name;
+    console.log(this.nVideo);
+    console.log(this.video);
   }
 };
 </script>
