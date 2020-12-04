@@ -1,0 +1,90 @@
+html {
+  font-size: 62.5%;
+}
+:root {
+  --color-primario: #05a081;
+}
+.contenedor {
+  &__hero {
+    background-image: url("https://images.pexels.com/photos/163185/old-retro-antique-vintage-163185.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    background-position: top center;
+    padding: 15rem 0;
+    &--texto {
+      background-color: rgba($color: #000000, $alpha: 0.8);
+      width: 60%;
+      margin: 0 auto;
+      padding: 5rem;
+      border-radius: 2rem;
+      h1 {
+        color: white;
+        font-size: 4rem;
+      }
+      input {
+        width: 100%;
+        margin: 2rem 0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: none;
+      }
+      button {
+        padding: 1rem 2rem;
+        width: 30%;
+        display: block;
+        margin-left: auto;
+        cursor: pointer;
+        background-color: var(--color-primario);
+        border: none;
+        border-radius: 0.5rem;
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-align: center;
+        transition: all 400ms ease;
+        &:hover {
+          transform: scale(0.9);
+        }
+        &:disabled,
+        &[disabled] {
+          background-color: #00866c;
+          cursor: default;
+          &:hover {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
+  &__general {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 3rem;
+    img {
+      max-width: 100%;
+    }
+    @media (max-width: 768px){
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 480px){
+      grid-template-columns: 1fr;
+    }
+  }
+}
+.ancho {
+  width: 80%;
+  margin: 0 auto;
+}
+h2 {
+  font-size: 5rem;
+  margin: 5rem auto !important;
+  position: relative;
+  &:before {
+    position: absolute;
+    content: "";
+    bottom: -2rem;
+    left: 0;
+    width: 10rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-color: var(--color-primario);
+  }
+}
